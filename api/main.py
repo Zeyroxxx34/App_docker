@@ -1,8 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import psycopg2
 
-app = FastAPI()
+app = FastAPI(title="TD Docker API", version="1.0.0")
+
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:8080").split(",")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,    # on autorise seulement ces domaines
+    allow_credentials=True,
+    allow_methods=["GET"],            # seules les méthodes nécessaires
+    allow_headers=["Content-Type"],   # seuls les headers indispensables
+)
 
 #Récupération des variables du fichier .env
 DB_HOST = os.getenv("DB_HOST")
