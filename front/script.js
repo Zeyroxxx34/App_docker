@@ -8,4 +8,6 @@ fetch('http://localhost:5000/items')
             li.textContent = item.name;
             list.appendChild(li);
         });
+        print(data);
+        console.log(data);
     });
