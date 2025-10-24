@@ -5,14 +5,15 @@ import psycopg2
 
 app = FastAPI(title="TD Docker API", version="1.0.0")
 
+#CORS pour le navigateur
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:8080").split(",")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,    # on autorise seulement ces domaines
+    allow_origins=ALLOWED_ORIGINS,    
     allow_credentials=True,
-    allow_methods=["GET"],            # seules les méthodes nécessaires
-    allow_headers=["Content-Type"],   # seuls les headers indispensables
+    allow_methods=["GET"],            
+    allow_headers=["Content-Type"],   
 )
 
 #Récupération des variables du fichier .env
