@@ -10,6 +10,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 #Code de l'API
 COPY main.py .
 
+#Création d'un utilisateur non root
+RUN useradd -m apiuser
+USER apiuser
+
 #Port exposé pour l'API
 EXPOSE 5000
 
