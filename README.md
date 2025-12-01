@@ -15,7 +15,7 @@ Base de données : PostgreSQL
 
 Containerisation : Docker
 
-Cette application implémente des données stockées dans PostgreSQL, exposées via FastAPI et visualisable depuis l’interface web.
+Cette application implémente des données stockées dans PostgreSQL, exposées via FastAPI et visualisable depuis un navigateur web.
 
 
 -- Architecture du projet --
@@ -26,7 +26,7 @@ TD_Docker/
 │  ├─ Dockerfile  
 │  ├─ main.py     
 │  └─ requirements.txt          
-├─ front/                        # Frontend Vite + React
+├─ front/                        # Frontend natif
 │  ├─ Dockerfile
 │  ├─ index.html
 │  ├─ script.js
@@ -60,8 +60,8 @@ docker compose up
 
 Cette commande lance PostgreSQL, FastAPI et le frontend natif.
 Le frontend sera accessible sur http://localhost:8080
-Le backend sera accessible sur http://localhost:5000/items pour la liste des items
-Le backend sera accessible sur http://localhost:5000/status pour le status de l'API
+Le backend sera accessible sur : http://localhost:5000/items pour la liste des items
+                                 http://localhost:5000/status pour le status de l'API
 
 
 3. Arrêter les conteneurs
@@ -77,7 +77,7 @@ docker compose down -v
 
 4. Développement
 
-Lors de modifications du code (Frontend ou Backend), il est nécessaire de reconstruire l’image Docker des services avant de relancer les conteneurs afin que les changements soient pris en compte.
+Lors de modifications du code (Frontend ou Backend), il est nécessaire de reconstruire l’image Docker des services avant de relancer les conteneurs afin que les changements soient pris en compte :
 
 docker compose build
 docker compose up
