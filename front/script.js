@@ -1,5 +1,5 @@
 //Récupération des items depuis l'API
-fetch('http://localhost:5000/items')
+fetch('http://api:5000/items')
     .then(res => res.json())
     .then(data => {
         const list = document.getElementById('items');

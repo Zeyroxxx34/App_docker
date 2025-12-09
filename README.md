@@ -51,6 +51,10 @@ Cette étape construit toutes les images nécessaires pour le projet :
 
 docker compose build
 
+Vérifier que les images ont bien été crées avec : 
+
+docker images
+
 
 2. Lancer les conteneurs
 
@@ -81,4 +85,60 @@ Lors de modifications du code (Frontend ou Backend), il est nécessaire de recon
 
 docker compose build
 docker compose up
+
+
+5. Push une image signée sur Docker Hub
+
+Dans le terminal du projet, activer Docker Content Trust :
+
+$env:DOCKER_CONTENT_TRUST=1
+
+Ensuite, il suffit de se loguer à son compte Docker avec la commande (après avoir créé deux repositories dans Docker Hub : dans mon cas, api et front) :
+
+docker login
+
+Ensuite, build et tag les images :
+
+docker build -t username_dockerHub/api:latest ./api
+docker build -t username_dockerHub/front:latest ./front
+
+Enfin, push les images avec cette commande :
+
+docker push username_dockerHub/api:latest
+docker push username_dockerHub/front:latest
+
+Il est possible de vérifier si une image est signée en essayant de la pull avec le Docker Content Trust d'activé, si le pull fonctionne, l'image est signée.
+
+Dans mon cas, j'arrive à push une image non signée mais lorsque je veux la signer j'ai cette erreur :
+
+failed to sign docker.io/username_dockerHub/api:latest: no hashes specified for target ""
+
+Dans Docker Hub, il est possible de retrouver mes deux images :
+
+zeyroxxx/api
+zeyroxxx/front
+
+
+6. Scanner une image
+
+Pour scanner une image, il suffit d'exécuter cette commande :
+
+docker scan username_DockerHub/api:latest
+docker scan username_DockerHub/front:latest
+
+Dans mon cas (les issues correspondent à des fichiers inconnus non reliés à mon code) :
+Organization:      zeyroxxx34
+Package manager:   deb
+Project name:      docker-image|zeyroxxx/api
+Docker image:      zeyroxxx/api:latest
+Platform:          linux/amd64
+Target OS:         Debian GNU/Linux 13 (trixie)
+Licenses:          enabled
+
+Tested 87 dependencies for known issues, found 23 issues.
+
+
+7. Automatisation
+
+Le fichier deploiement.sh permet de build les images et lancer les conteneurs automatiquement.
 ```
