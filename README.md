@@ -68,9 +68,11 @@ docker images
 docker compose up
 ```
 Cette commande lance PostgreSQL, FastAPI et le frontend natif.
+```
 Le frontend sera accessible sur http://localhost:8080
 Le backend sera accessible sur : http://localhost:5000/items pour la liste des items
                                  http://localhost:5000/status pour le status de l'API
+```
 
 
 ## 3. Arrêter les conteneurs
