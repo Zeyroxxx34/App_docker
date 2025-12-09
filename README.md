@@ -6,7 +6,7 @@
 
 ### Application full-stack containerisée utilisant :
 
-Frontend : Code natif (html, JS)
+Frontend : Code natif (HTML, JS)
 
 Backend : FastAPI
 
@@ -22,17 +22,22 @@ Cette application implémente des données stockées dans PostgreSQL, exposées 
 ```
 
 TD_Docker/
-├─ api/                          # Backend FastAPI
+├─ api/                          Backend FastAPI
 │  ├─ Dockerfile  
 │  ├─ main.py     
-│  └─ requirements.txt          
-├─ front/                        # Frontend natif
+│  └─ requirements.txt
+├─ db/                           Initialisation de la db
+│  ├─ init.sql          
+├─ front/                        Frontend natif
 │  ├─ Dockerfile
 │  ├─ index.html
 │  ├─ script.js
+├─ scripts/                      Automatisation
+│  ├─ deploiement.sh
+├─ .dockerignore
 ├─ .env
 ├─ .gitignore
-├─ docker-compose.yml            # Définition des services Docker
+├─ docker-compose.yml            Définition des services Docker
 ├─ env.example
 └─ README.md                    
 ```
@@ -41,23 +46,24 @@ TD_Docker/
 ## 0. Prérequis
 
 Docker (version récente)
+Compte sur Docker Hub
 
 
 ## 1. Build des images Docker
 
-### Cette étape construit toutes les images nécessaires pour le projet :
+### Construire toutes les images nécessaires pour le projet avec cette commande :
 ```
 docker compose build
 ```
 
-### Vérifier que les images ont bien été crées avec : 
+### Vérifier que les images ont bien été crées avec cette commande : 
 ```
 docker images
 ```
 
 ## 2. Lancer les conteneurs
 
-### Une fois les images construites, démarrer les services avec :
+### Une fois les images construites, démarrer les services avec cette commande :
 ```
 docker compose up
 ```
@@ -69,11 +75,11 @@ Le backend sera accessible sur : http://localhost:5000/items pour la liste des i
 
 ## 3. Arrêter les conteneurs
 
-### Pour stopper et supprimer les conteneurs tout en conservant les volumes :
+### Stopper et supprimer les conteneurs tout en conservant les volumes avec cette commande :
 ```
 docker compose down
 ```
-### Pour stopper et supprimer les conteneurs sans conserver les volumes (peut être utile si problèmes de connexion entre l'API et la BDD) :
+### Stopper et supprimer les conteneurs sans conserver les volumes (peut être utile si problèmes de connexion entre l'API et la BDD) avec cette commande :
 ```
 docker compose down -v
 ```
@@ -88,15 +94,15 @@ docker compose up
 
 ## 5. Push une image signée sur Docker Hub
 
-### Dans le terminal du projet, activer Docker Content Trust :
+### Dans le terminal du projet, activer Docker Content Trust avec cette commande :
 ```
 $env:DOCKER_CONTENT_TRUST=1
 ```
-### Ensuite, il suffit de se loguer à son compte Docker avec la commande (après avoir créé deux repositories dans Docker Hub : dans mon cas, api et front) :
+### Ensuite, il suffit de se loguer à son compte Docker avec cette commande (après avoir créé deux repositories dans Docker Hub : dans mon cas, api et front) :
 ```
 docker login
 ```
-### Ensuite, build et tag les images :
+### Ensuite, build et tag les images avec cette commande :
 ```
 docker build -t username_dockerHub/api:latest ./api
 docker build -t username_dockerHub/front:latest ./front
@@ -141,3 +147,17 @@ Tested 87 dependencies for known issues, found 23 issues.
 ## 7. Automatisation
 
 Le fichier deploiement.sh permet de build les images et lancer les conteneurs automatiquement.
+
+
+## 8. Sécurité
+
+Exécution de l'api et du front avec un utilisateur non root via ces deux lignes de configuration dans le Dockerfile :
+
+```
+RUN useradd -m apiuser
+USER apiuser
+```
+
+Variables sensibles externalisées via le fichier .env.
+
+
